@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         //保管されているmemo.datを読み込む　memo.datが存在しない時はException
         try {
-            openFileInput("memo.dat")
+            openFileInput("fileOutput.dat")
                 .bufferedReader().forEachLine {
                     str.append(it)
                     str.append(System.getProperty("line.separator"))
@@ -27,12 +27,11 @@ class MainActivity : AppCompatActivity() {
             txtMemo.setText("")
         }
 
-
         val btn = findViewById<Button>(R.id.btnSave)
         //保管処理　memo.datが存在してもしなくても例外処理が不要
         btn.setOnClickListener {
 
-            openFileOutput("memo.dat", MODE_PRIVATE)
+            openFileOutput("fileOutput.dat", MODE_PRIVATE)
                 .bufferedWriter().use {
                     it.write(txtMemo.text.toString())
                 }
