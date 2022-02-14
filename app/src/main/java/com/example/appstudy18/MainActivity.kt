@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import java.io.File
 import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity() {
@@ -30,11 +31,18 @@ class MainActivity : AppCompatActivity() {
         val btn = findViewById<Button>(R.id.btnSave)
         //保管処理　memo.datが存在してもしなくても例外処理が不要
         btn.setOnClickListener {
+//            この方法でも保管可能
+//            openFileOutput("fileOutput.dat", MODE_PRIVATE)
+//                .bufferedWriter().use {
+//                    it.write(txtMemo.text.toString())
+//                }
 
-            openFileOutput("fileOutput.dat", MODE_PRIVATE)
-                .bufferedWriter().use {
-                    it.write(txtMemo.text.toString())
-                }
+            //import java.io.Fileが必要だがこれでも保管可能
+            File(filesDir,"fileOutput.dat")
+                .writeText(txtMemo.text.toString())
+
+
+
         }
     }
 }
