@@ -12,19 +12,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val str = StringBuilder()
-        openFileInput("memo.dat")
-            .bufferedReader().forEachLine {
-                str.append(it)
-                str.append(System.getProperty("line.separator"))
-            }
-
-
         val txtMemo = findViewById<EditText>(R.id.txtMemo)
+
+        //保管されているmemo.datを読み込む　memo.datが存在しない時はException
+        try {
+            openFileInput("memo.dat")
+                .bufferedReader().forEachLine {
+                    str.append(it)
+                    str.append(System.getProperty("line.separator"))
+                }
+            txtMemo.setText(str.toString())
+
+        }catch(e: Exception){
+            txtMemo.setText("")
+        }
+
+
         val btn = findViewById<Button>(R.id.btnSave)
-
-        txtMemo.setText(str.toString())
-
-
+        //保管処理　memo.datが存在してもしなくても例外処理が不要
         btn.setOnClickListener {
 
             openFileOutput("memo.dat", MODE_PRIVATE)
@@ -32,11 +37,5 @@ class MainActivity : AppCompatActivity() {
                     it.write(txtMemo.text.toString())
                 }
         }
-
-
-
-
-
-
     }
 }
